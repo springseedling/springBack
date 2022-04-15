@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ public class OrgService {
     @Resource
     ActivityMapper activityMapper;
 
-    public int UploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time) {
+    public int UploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time, String join_start, String join_end) {
         Activity activity = new Activity();
         activity.setOrg_name(org_name);
         activity.setOrg_id(org_id);
@@ -36,6 +37,8 @@ public class OrgService {
         activity.setAct_profile(act_profile);
         activity.setJoin_time(join_time);
         activity.setAct_time(act_time);
+        activity.setJoin_start(join_start);
+        activity.setJoin_end(join_end);
         return activityMapper.insert(activity);
     }
 
@@ -55,9 +58,22 @@ public class OrgService {
         return activityMapper.selectList(queryWrapper);
     }
 
-    public Map<String, Object> page(String item_name, int page, int size){
+    public Map<String, Object> page(String item_name, String address, String status, int page, int size){
         QueryWrapper<Activity> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("item_name",item_name);
+        queryWrapper.eq("address",address);
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MMdd");
+        if(status.equals("即将进行")){
+           queryWrapper.gt("join_start",formatter.format(date));
+        }
+        if(status.equals("招募中")){
+          queryWrapper.le("join_start",formatter.format(date));
+          queryWrapper.ge("join_end",formatter.format(date));
+        }
+        if(status.equals("已结束")){
+            queryWrapper.lt("join_end",formatter.format(date));
+        }
         Page pageInfo = new Page(page,size);
         IPage<Activity> iPage = activityMapper.selectPage(pageInfo, queryWrapper);
         Map<String,Object> pageMap = new HashMap<>(3);

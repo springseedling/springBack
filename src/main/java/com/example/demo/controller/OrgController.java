@@ -19,8 +19,8 @@ public class OrgController {
     @Autowired
     OrgService orgService;
     @GetMapping("/uploadActivity")
-    public Object uploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile,String join_time, String act_time){
-        if(orgService.UploadActivity(org_name, org_id, item_name, address, course, grade, need_num, present_num, release_time, img, org_profile, act_profile, join_time, act_time)==1) {
+    public Object uploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile,String join_time, String act_time, String join_start, String join_end){
+        if(orgService.UploadActivity(org_name, org_id, item_name, address, course, grade, need_num, present_num, release_time, img, org_profile, act_profile, join_time, act_time, join_start, join_end)==1) {
             return Result.SUCCESS("操作成功！");
         }else {
             return Result.FAIL("操作失败！");
@@ -42,8 +42,8 @@ public class OrgController {
     }
     @GetMapping("/page")
     @NoAuth
-    public Result page(String item_name, int page, int size){
-        Map<String,Object> map = orgService.page(item_name,page,size);
+    public Result page(String item_name, String address, String status, int page, int size){
+        Map<String,Object> map = orgService.page(item_name,address,status,page,size);
         return Result.SUCCESS(map);
     }
 }

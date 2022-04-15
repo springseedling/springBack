@@ -30,4 +30,6 @@ public class Activity {
     private String act_profile;
     private String join_time;
     private String act_time;
+    private String join_start;
+    private String join_end;
 }
