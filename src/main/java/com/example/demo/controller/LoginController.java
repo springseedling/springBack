@@ -4,6 +4,7 @@ import com.example.demo.common.Result;
 import com.example.demo.handler.NoAuth;
 import com.example.demo.model.WXAuth;
 import com.example.demo.service.LoginService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/login")
 @Slf4j
+@Api(tags = "获取openid和token")
 public class LoginController {
     @Autowired
     LoginService loginService;

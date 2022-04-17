@@ -23,7 +23,7 @@ spring:
     name: courseware
 server:
   port: 8080
+  address: 0.0.0.0
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: false
-

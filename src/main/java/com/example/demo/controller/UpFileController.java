@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.handler.NoAuth;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
+@Api(tags = "图片上传")
 public class UpFileController {
     @PostMapping("/uploadFile")
     @NoAuth

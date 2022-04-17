@@ -4,12 +4,14 @@ import com.example.demo.common.PhoneCode;
 import com.example.demo.common.Result;
 import com.example.demo.handler.NoAuth;
 import com.example.demo.utils.TxSmsUtils;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/sendSms")
+@Api(tags = "发送手机验证码")
 public class SmsController {
 
     @GetMapping("/code")
