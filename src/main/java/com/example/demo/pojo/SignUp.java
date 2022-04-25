@@ -3,12 +3,10 @@ package com.example.demo.pojo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
-@TableName("signUp")
+@TableName("sign_up")
 @Data
-@ApiModel
 public class SignUp {
     @TableId(value = "uid", type = IdType.AUTO)
     private Integer uid;

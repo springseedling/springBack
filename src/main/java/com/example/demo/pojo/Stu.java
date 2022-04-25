@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("sign_in")
 @Data
-public class SignIn {
+@TableName("stu_info")
+public class Stu {
     @TableId(value = "uid")
     private Integer uid;
-    private String username;
-    private String password;
-    private String role;
+    private String stu_name;
+    private String stu_school;
+    private String stu_subject;
+    private String stu_phone;
 }

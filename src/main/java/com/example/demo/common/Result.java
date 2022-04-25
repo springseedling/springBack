@@ -44,6 +44,14 @@ public class Result<T> {
         return new Result(ResultCode.SUCCESS, data);
     }
 
+    public static Result RECORD_HAS_EXISTED() {
+        return new Result(ResultCode.RECORD_HAS_EXISTED);
+    }
+
+    public static <T> Result RECORD_HAS_EXISTED(T data) {
+        return new Result(ResultCode.RECORD_HAS_EXISTED, data);
+    }
+
     public static Result FAIL() {
         return new Result(ResultCode.FAIL);
     }

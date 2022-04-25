@@ -25,5 +25,9 @@ server:
   port: 8080
   address: 0.0.0.0
 mybatis-plus:
+  #配置Mapper映射文件
+  mapper-locations: classpath:mapper/*.xml
+  # 配置Mybatis数据返回类型别名（默认别名为类名）
+  type-aliases-package: com.example.demo.pojo
   configuration:
     map-underscore-to-camel-case: false

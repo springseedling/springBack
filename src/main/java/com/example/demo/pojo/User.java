@@ -7,9 +7,7 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  */
