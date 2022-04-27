@@ -21,7 +21,7 @@ public class OrgService {
     @Resource
     ActivityMapper activityMapper;
 
-    public int UploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time, String join_start, String join_end) {
+    public int UploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time, String join_start, String join_end) {
         Activity activity = new Activity();
         activity.setOrg_name(org_name);
         activity.setOrg_id(org_id);
@@ -30,7 +30,6 @@ public class OrgService {
         activity.setCourse(course);
         activity.setGrade(grade);
         activity.setNeed_num(need_num);
-        activity.setPresent_num(present_num);
         activity.setRelease_time(release_time);
         activity.setImg(img);
         activity.setOrg_profile(org_profile);
@@ -42,8 +41,9 @@ public class OrgService {
         return activityMapper.insert(activity);
     }
 
-    public List<Activity> getActList(){
+    public List<Activity> getActList(int org_id){
         QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("org_id",org_id);
         List<Activity> list = activityMapper.selectList(queryWrapper);
         return list;
     }

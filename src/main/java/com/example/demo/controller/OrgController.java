@@ -30,8 +30,8 @@ public class OrgController {
     @Resource
     RecordService recordService;
     @GetMapping("/uploadActivity")
-    public Object uploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, int present_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time, String join_start, String join_end){
-        if(orgService.UploadActivity(org_name, org_id, item_name, address, course, grade, need_num, present_num, release_time, img, org_profile, act_profile, join_time, act_time, join_start, join_end)==1) {
+    public Object uploadActivity(String org_name, int org_id, String item_name, String address, String course, String grade, int need_num, String release_time, String img, String org_profile, String act_profile, String join_time, String act_time, String join_start, String join_end){
+        if(orgService.UploadActivity(org_name, org_id, item_name, address, course, grade, need_num, release_time, img, org_profile, act_profile, join_time, act_time, join_start, join_end)==1) {
             return Result.SUCCESS("操作成功！");
         }else {
             return Result.FAIL("操作失败！");
@@ -39,8 +39,8 @@ public class OrgController {
     }
     @GetMapping("/getActList")
     @NoAuth
-    public List<Activity> getActList(){
-        return orgService.getActList();
+    public List<Activity> getActList(int org_id){
+        return orgService.getActList(org_id);
     }
     @GetMapping("/getALById")
     public Activity getALById(String id){
@@ -59,24 +59,25 @@ public class OrgController {
     }
     @GetMapping("/getAllRecord")
     @NoAuth
-    public Result getAllRecord(){
-        List<Record> list =  recordService.getAllRecord();
+    public Result getAllRecord(int org_id, int item_id, int check_status,int record_order){
+        List<Record> list =  recordService.getAllRecord(org_id,item_id,check_status,record_order);
         return Result.SUCCESS(list);
     }
     @GetMapping("/checkRecord")
     public Result checkRecord(int record_id, int check){
         if(recordService.checkRecord(record_id, check)==1){
             return Result.SUCCESS("审核成功");
-        }else if(recordService.checkRecord(record_id, check)==0){
-            return Result.FAIL("请勿重复审核！");
+            //由于有权限修改审核状态，这里去掉判断
+//        }else if(recordService.checkRecord(record_id, check)==0){
+//            return Result.FAIL("请勿重复审核！");
         }else{
             return Result.FAIL();
         }
     }
     @GetMapping("/getChecking")
     @NoAuth
-    public Result getChecking(){
-        List<Record> list = recordService.getChecking();
+    public Result getChecking(int org_id){
+        List<Record> list = recordService.getChecking(org_id);
         return Result.SUCCESS(list);
     }
 }

@@ -31,25 +31,35 @@ public class RecordService {
         }
     }
 
-    public List<Record> getAllRecord(){
-        return recordMapper.getAllRecord();
+    public List<Record> getAllRecord(int org_id, int item_id, int check_status, int record_order){
+        if(record_order==0){
+            return recordMapper.getAllRecordASC(org_id,item_id,check_status,record_order);
+        }else{
+            return recordMapper.getAllRecordDESC(org_id,item_id,check_status,record_order);
+        }
     }
 
     public int checkRecord(int record_id, int check){
-        QueryWrapper queryWrapper = new QueryWrapper<Record>();
-        queryWrapper.eq("record_id",record_id);
-        queryWrapper.eq("record_check",0);
-        if(recordMapper.selectOne(queryWrapper)!=null){
+//        QueryWrapper queryWrapper = new QueryWrapper<Record>();
+//        queryWrapper.eq("record_id",record_id);
+//        queryWrapper.eq("record_check",0);
+//        if(recordMapper.selectOne(queryWrapper)!=null){
             UpdateWrapper updateWrapper = new UpdateWrapper<Record>();
             updateWrapper.eq("record_id",record_id);
             updateWrapper.set("record_check",check);
-            return recordMapper.update(null,updateWrapper);
-        }else{
-            return 0;
+            updateWrapper.set("sign_time",new Date());
+            if(check==1){
+                return recordMapper.updateNum(record_id)+recordMapper.update(null,updateWrapper)-1;
+            }else{
+                return recordMapper.update(null,updateWrapper);
+            }
         }
-    }
+//        else{
+//            return 0;
+//        }
+//    }
     //待审核的报名记录
-    public List<Record> getChecking() {
-        return recordMapper.getChecking();
+    public List<Record> getChecking(int org_id) {
+        return recordMapper.getChecking(org_id);
     }
 }

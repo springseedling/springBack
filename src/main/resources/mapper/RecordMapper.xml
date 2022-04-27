@@ -5,11 +5,22 @@
 <!--    <select id="getAllRecord" resultType="record">-->
 <!--        select * from record-->
 <!--    </select>-->
-    <select id="getAllRecord" resultMap="record-stu-act">
-        select r.record_id,s.stu_name,s.stu_school,s.stu_subject,s.stu_phone,i.item_name,i.address,i.join_time,i.act_profile
+    <select id="getAllRecordASC" resultMap="record-stu-act">
+        select r.record_id,r.sign_time,s.stu_name,s.stu_school,s.stu_subject,s.stu_phone,i.item_name,i.address,i.join_time,i.act_profile
         FROM record r
                  INNER JOIN stu_info s ON r.user_id = s.uid
                  INNER JOIN item_info i ON r.item_id = i.item_id
+        where r.org_id = #{org_id} and r.item_id = #{item_id} and r.record_check = #{check_status}
+        ORDER BY sign_time ASC
+    </select>
+
+    <select id="getAllRecordDESC" resultMap="record-stu-act">
+        select r.record_id,r.sign_time,s.stu_name,s.stu_school,s.stu_subject,s.stu_phone,i.item_name,i.address,i.join_time,i.act_profile
+        FROM record r
+                 INNER JOIN stu_info s ON r.user_id = s.uid
+                 INNER JOIN item_info i ON r.item_id = i.item_id
+        where r.org_id = #{org_id} and r.item_id = #{item_id} and r.record_check = #{check_status}
+        ORDER BY sign_time DESC
     </select>
 
     <select id="getChecking" resultMap="record-stu-act">
@@ -17,12 +28,13 @@
         FROM record r
                  INNER JOIN stu_info s ON r.user_id = s.uid
                  INNER JOIN item_info i ON r.item_id = i.item_id
-        where r.record_check = 0
+        where r.record_check = 0 and r.org_id = #{org_id}
     </select>
 
     <resultMap id="record-stu-act" type="record">
         <id column="record_id" property="record_id"/>
         <result column="record_check" property="record_check"/>
+        <result column="sign_time" property="sign_time"/>
         <association property="activity" javaType="activity" >
             <id column="item_id" property="item_id"/>
             <result column="item_name" property="item_name"/>
@@ -38,4 +50,9 @@
             <result column="stu_phone" property="stu_phone"/>
         </association>
     </resultMap>
+
+    <update id="updateNum">
+        update item_info set present_num = present_num + 1
+        where item_id in (select item_id from record where record_id = #{record_id})
+    </update>
 </mapper>
