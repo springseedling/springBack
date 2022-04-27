@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.demo.mapper.RecordMapper;
+import com.example.demo.pojo.Activity;
 import com.example.demo.pojo.Record;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +51,19 @@ public class RecordService {
             updateWrapper.set("sign_time",new Date());
             if(check==1){
                 return recordMapper.updateNum(record_id)+recordMapper.update(null,updateWrapper)-1;
-            }else{
-                return recordMapper.update(null,updateWrapper);
+            }
+            if(check==-1){
+                QueryWrapper queryWrapper = new QueryWrapper<Record>();
+                queryWrapper.eq("record_id",record_id);
+                queryWrapper.eq("record_check",1);
+                if(recordMapper.selectOne(queryWrapper)!=null){
+                    return recordMapper.minusNum(record_id)+recordMapper.update(null,updateWrapper)-1;
+                }else{
+                    return recordMapper.update(null,updateWrapper);
+                }
+            }
+            else{
+                return 0;
             }
         }
 //        else{
@@ -61,5 +73,9 @@ public class RecordService {
     //待审核的报名记录
     public List<Record> getChecking(int org_id) {
         return recordMapper.getChecking(org_id);
+    }
+
+    public List<Activity> getMyAct(int user_id, int record_check){
+        return recordMapper.getMyAct(user_id,record_check);
     }
 }

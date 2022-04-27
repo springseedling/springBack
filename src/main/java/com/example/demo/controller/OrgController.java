@@ -80,4 +80,20 @@ public class OrgController {
         List<Record> list = recordService.getChecking(org_id);
         return Result.SUCCESS(list);
     }
+    @GetMapping("/updateActivity")
+    public Result updateActivity(int item_id, String course, String grade, int need_num, String act_profile, String address, String join_time, String act_time){
+        if(orgService.updateActivity(item_id, course,grade,need_num,act_profile,address,join_time,act_time)==1){
+            return Result.SUCCESS("修改成功！");
+        }else{
+            return Result.SUCCESS("修改失败！");
+        }
+    }
+    @GetMapping("/removeActivity")
+    public Result removeActivity(int item_id){
+        if(orgService.removeActivity(item_id)==1){
+            return Result.SUCCESS("删除成功！");
+        }else{
+            return Result.FAIL("删除失败！");
+        }
+    }
 }

@@ -17,7 +17,7 @@ public class Activity {
     private String address;
     private String course;
     private String grade;
-    private int need_num;
+    private Integer need_num;
     private int present_num;
 
     private String release_time;

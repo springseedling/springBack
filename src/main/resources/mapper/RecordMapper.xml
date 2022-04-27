@@ -55,4 +55,15 @@
         update item_info set present_num = present_num + 1
         where item_id in (select item_id from record where record_id = #{record_id})
     </update>
+
+    <update id="minusNum">
+        update item_info set present_num = present_num - 1
+        where item_id in (select item_id from record where record_id = #{record_id})
+    </update>
+
+    <select id="getMyAct" resultType="activity">
+        select * from item_info where item_id
+        in (select item_id from record where record_check = #{record_check} and user_id = #{user_id})
+    </select>
+
 </mapper>

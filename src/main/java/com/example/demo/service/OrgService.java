@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -81,5 +82,22 @@ public class OrgService {
         pageMap.put("total_page",iPage.getPages());
         pageMap.put("current_data",iPage.getRecords());
         return pageMap;
+    }
+
+    public int updateActivity(int item_id, String course, String grade, int need_num, String act_profile, String address, String join_time, String act_time){
+        UpdateWrapper updateWrapper = new UpdateWrapper<Activity>();
+        updateWrapper.eq("item_id",item_id);
+        updateWrapper.set("course",course);
+        updateWrapper.set("grade",grade);
+        updateWrapper.set("need_num",need_num);
+        updateWrapper.set("act_time",act_time);
+        updateWrapper.set("join_time",join_time);
+        updateWrapper.set("act_profile",act_profile);
+        updateWrapper.set("address",address);
+        return activityMapper.update(null,updateWrapper);
+    }
+
+    public int removeActivity(int item_id){
+        return activityMapper.deleteById(item_id);
     }
 }

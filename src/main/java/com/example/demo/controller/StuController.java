@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.common.Result;
 import com.example.demo.handler.NoAuth;
+import com.example.demo.pojo.Activity;
+import com.example.demo.pojo.Record;
 import com.example.demo.pojo.Stu;
 import com.example.demo.service.RecordService;
 import com.example.demo.service.StuService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/stu")
@@ -35,5 +38,12 @@ public class StuController {
         }else{
             return Result.FAIL("报名失败！");
         }
+    }
+
+    @GetMapping("/getMyAct")
+    @NoAuth
+    public Result getMyAct(int user_id, int record_check){
+        List<Activity> list = recordService.getMyAct(user_id,record_check);
+        return Result.SUCCESS(list);
     }
 }
