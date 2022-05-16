@@ -18,8 +18,12 @@ public class RecordService {
     public int enterAct(int user_id, int item_id, int org_id){
         //先看看有没有重复报名
         QueryWrapper queryWrapper = new QueryWrapper<Record>();
+        QueryWrapper queryWrapper1 = new QueryWrapper<Record>();
         queryWrapper.eq("user_id",user_id);
         queryWrapper.eq("item_id",item_id);
+        queryWrapper1.eq("user_id",user_id);
+        queryWrapper1.eq("item_id",item_id);
+        queryWrapper1.eq("record_check",-1);
         if(recordMapper.selectOne(queryWrapper)==null){
             Record record = new Record();
             record.setUser_id(user_id);
@@ -27,7 +31,15 @@ public class RecordService {
             record.setOrg_id(org_id);
             record.setSign_time(new Date());
             return recordMapper.insert(record);
-        }else{
+        }
+        if(queryWrapper1!=null){
+            UpdateWrapper updateWrapper = new UpdateWrapper<Record>();
+            updateWrapper.eq("user_id",user_id);
+            updateWrapper.eq("item_id",item_id);
+            updateWrapper.set("record_check",0);
+            return recordMapper.update(null,updateWrapper);
+        }
+        else{
             return -1;
         }
     }
